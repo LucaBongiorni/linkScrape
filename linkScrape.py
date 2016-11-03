@@ -4,7 +4,7 @@
 # Description: Enumerates employee names from LinkedIn.com based off company search results.
 # Version v 1.9222016
 import os, sys, getopt, getpass, re, requests, time
-from sys import argv 
+from sys import argv
 from bs4 import BeautifulSoup
 
 timestr = time.strftime("%Y%m%d-%H%M")
@@ -19,15 +19,15 @@ class colors:
    lightblue = "\033[0;34m"
 
 banner = colors.lightblue + r"""
- ___                __      ____                                             
-/\_ \    __        /\ \    /\  _`\                                           
-\//\ \  /\_\    ___\ \ \/'\\ \,\L\_\    ___   _ __    __     _____      __   
-  \ \ \ \/\ \ /' _ `\ \ , < \/_\__ \   /'___\/\`'__\/'__`\  /\ '__`\  /'__`\ 
-   \_\ \_\ \ \/\ \/\ \ \ \\`\ /\ \L\ \/\ \__/\ \ \//\ \L\.\_\ \ \L\ \/\  __/ 
+ ___                __      ____
+/\_ \    __        /\ \    /\  _`\
+\//\ \  /\_\    ___\ \ \/'\\ \,\L\_\    ___   _ __    __     _____      __
+  \ \ \ \/\ \ /' _ `\ \ , < \/_\__ \   /'___\/\`'__\/'__`\  /\ '__`\  /'__`\
+   \_\ \_\ \ \/\ \/\ \ \ \\`\ /\ \L\ \/\ \__/\ \ \//\ \L\.\_\ \ \L\ \/\  __/
    /\____\\ \_\ \_\ \_\ \_\ \_\ `\____\ \____\\ \_\\ \__/.\_\\ \ ,__/\ \____\
    \/____/ \/_/\/_/\/_/\/_/\/_/\/_____/\/____/ \/_/ \/__/\/_/ \ \ \/  \/____/
-                                                               \ \_\         
-                                                                \/_/         
+                                                               \ \_\
+                                                                \/_/
 """+'\n' \
 + colors.lightblue + '\n linkScrape.py v1.9222016' \
 + colors.normal + '\n Description: Enumerates employee names from LinkedIn.com '\
@@ -52,7 +52,7 @@ def connection(email, password, companyName, pageResults, timeout, output):
         }
     client.post(login, data=login_information)
     companyInfo = ''
-    
+
     # Company Info
     request1 = client.get('https://www.linkedin.com/company/'+companyName)
     m3 = re.findall(r"companyName\"\:\"[\w]*.[\w]", request1.text)
@@ -67,7 +67,7 @@ def connection(email, password, companyName, pageResults, timeout, output):
     except IndexError:
       print('[*]Company information not available. ')
     else:
-        info= """ 
+        info= """
 Company Name: {0}
 industry: {1}
 {2} + employees
@@ -75,7 +75,7 @@ Employees on LinkedIn: {3}
     """
         companyInfo = info.format(company,industry,size,employeeCount)
     print(companyInfo)
-    
+
     r1=client.get('https://www.linkedin.com/vsearch/p?type=people&keywords='+companyName)
     for z in range(1, pageResults):
         time.sleep(timeout)
@@ -107,6 +107,155 @@ Employees on LinkedIn: {3}
         x = f.read()
     print(x)
 
+def mangleOne(first_name, last_name, companyName, formatValue, domain):
+    newname=first_name + last_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleTwo(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name + first_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleThree(first_name, last_name, companyName, formatValue, domain):
+    newname = first_name + "." + last_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+
+def mangleFour(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name + "." + first_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleFive(first_name, last_name, companyName, formatValue, domain):
+    newname = first_name + "_" + last_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleSix(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name + "_" + first_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+
+def mangleSeven(first_name, last_name, companyName, formatValue, domain):
+    newname = first_name[0] + last_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleEight(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name[0] + first_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleNine(first_name, last_name, companyName, formatValue, domain):
+    newname = first_name + last_name[0]
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+
+def mangleTen(first_name, last_name, companyName, formatValue, domain):
+    newname = first_name[0] + "." + last_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleEleven(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name[0] + "." + first_name
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleTwelve(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name[0:3] + first_name[0:2]
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+
+def mangleThirteen(first_name, last_name, companyName, formatValue, domain):
+    newname = last_name[0:4] + first_name[0:3]
+    if domain != '':
+        newname = newname+"@"+domain
+        write(companyName, formatValue, newname)
+    else:
+        write(companyName, formatValue, newname)
+    return newname
+
+def mangleAll(first_name, last_name, companyName, formatValue, domain):
+    newname = mangleOne(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleTwo(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleThree(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleFour(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleFive(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleSix(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleSeven(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleEight(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleNine(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleTen(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleEleven(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleTwelve(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+    newname = mangleThirteen(first_name, last_name, companyName, formatValue, domain)
+    print(newname)
+
 def name(companyName, output, formatValue, domain):
     filename = "linkScrape-data/"+companyName+"-"+"mangle-"+str(formatValue)+"_"+timestr+".txt"
     print('Mangled option chosen: '+ str(formatValue))
@@ -118,122 +267,46 @@ def name(companyName, output, formatValue, domain):
         last_name = full_name[-1]
 
         if formatValue == 1:
-            newname=first_name + last_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
-        elif formatValue == 2: 
-            newname = last_name + first_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleOne(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
+        elif formatValue == 2:
+            newname = mangleTwo(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 3:
-            newname = first_name + "." + last_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleThree(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 4:
-            newname = last_name + "." + first_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleFour(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 5:
-            newname = first_name + "_" + last_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleFive(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 6:
-            newname = last_name + "_" + first_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleSix(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 7:
-            newname = first_name[0] + last_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleSeven(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 8:
-            newname = last_name[0] + first_name
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleEight(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 9:
-            newname = first_name + last_name[0]
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)
+            newname = mangleNine(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 10:
-            newname = first_name[0] + "." + last_name
-            if domain != '':
-              newname = newname+"@"+domain
-              write(companyName, formatValue, newname)
-              print(newname)
-            else:
-              write(companyName, formatValue, newname)
-              print(newname)
+            newname = mangleTen(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 11:
-            newname = last_name[0] + "." + first_name
-            if domain != '':
-              newname = newname+"@"+domain
-              write(companyName, formatValue, newname)
-              print(newname)
-            else:
-              write(companyName, formatValue, newname)
-              print(newname)
+            newname = mangleEleven(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
         elif formatValue == 12:
-            newname = last_name[0:3] + first_name[0:2]
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)     
-        elif formatValue == 13:                               
-            newname = last_name[0:4] + first_name[0:3]
-            if domain != '':
-                newname = newname+"@"+domain
-                write(companyName, formatValue, newname)
-                print(newname)
-            else:
-                write(companyName, formatValue, newname)
-                print(newname)  
+            newname = mangleTwelve(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
+        elif formatValue == 13:
+            newname = mangleThirteen(first_name, last_name, companyName, formatValue, domain)
+            print(newname)
+        elif formatValue == 99:
+            mangleAll(first_name, last_name, companyName, formatValue, domain)
         else:
             sys.exit(2)
 
@@ -258,7 +331,7 @@ def help():
     print "\t -r <results>\t\tSearches x amount of LinkedIn.com pages (Default is 5)."
     print "\t -t <secs>\t\tSets timeout value. (Default is 5.)"
     print colors.lightblue + "\n Mangle options:\n" + colors.normal
-    print """\t -m <mangle>\t\t  
+    print """\t -m <mangle>\t\t
                                  1)FirstLast        ex:nicksanzotta
                                  2)LastFirst        ex:sanzottanick
                                  3)First.Last       ex:nick.sanzotta
@@ -271,7 +344,8 @@ def help():
                                 10)F.Last           ex:n.sanzotta
                                 11)L.Firstname      ex:s.nick
                                 12)FirLa            ex:nicsa
-                                13)Lastfir          ex:sanznic  
+                                13)Lastfir          ex:sanznic
+                                99)All              Mangle all types
     """
     print "\t -d <domain>\t\tAppend @domain.com to enumerated user list."
     print "\t -i <input>\t\tUse local file instead of LinkedIn.com to perform name Mangle against."
@@ -301,15 +375,15 @@ def main(argv):
         print('[*]For help & command line options please use: python linkScrape.py --help\n')
         email = raw_input('Enter LinkedIn Email account[user@email.com]: ') or email
         print('ENTERED: "%s"' % email + '\n')
-        
+
         password = getpass.getpass('Enter LinkedIn Password: ') or password
-        
+
         companyName = raw_input('Enter Company[ex:acme]: ') or companyName
         output = 'linkScrape-data/'+companyName+'_'+timestr+'.txt'
         print('ENTERED: "%s"' % companyName + '\n')
-        
+
         print colors.lightblue + "\n Mangle options:\n" + colors.normal
-        print """\t -m <mangle>\t\t  
+        print """\t -m <mangle>\t\t
                                  1)FirstLast        ex:nicksanzotta
                                  2)LastFirst        ex:sanzottanick
                                  3)First.Last       ex:nick.sanzotta
@@ -323,6 +397,7 @@ def main(argv):
                                 11)L.Firstname      ex:s.nick
                                 12)FirLa            ex:nicsa
                                 13)Lastfir          ex:sanznic
+                                99)All              Mangle using all types
         """
         formatValue = raw_input('Enter name Managle choice[ex:7]: ') or formatValue
         formatValue = int(formatValue)
@@ -351,7 +426,7 @@ def main(argv):
     else:
         try:
             opts, args = getopt.getopt(argv, 'e:c:r:t:o:m:d:i:h',['email=','company=','results=','timeout=','output=','mangle=','--domain=','--input=','help'])
-            #GETOPT Menu: 
+            #GETOPT Menu:
             for opt, arg in opts:
                 if opt in ('-h', '--help'):
                     help()
